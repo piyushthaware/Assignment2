@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block main %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        {#        <a class="navbar-brand" href="#">Navbar</a>#}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/main">Query Area </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/subscriptions">Subscription</a>
+                </li>
+            </ul>
+            {{ user }} &nbsp;
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Image</th>
+                <th>Web Url</th>
+                <th>Year</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sub in subs %}
+                <tr>
+                    <td>{{ sub.music.title }}</td>
+                    <td>{{ sub.music.artist }}</td>
+                    <td><img height="50px" src="{{ sub.music.img_url }}"></td>
+                    <td>{{ sub.music.web_url }}</td>
+                    <td>{{ sub.music.year }}</td>
+                    <td>
+                        <button data-url="/remove-subscription/{{ sub.id }}" class="btn btn-primary btn-sm js-button">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% if not subs|length %}
+                <h4>No data</h4>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".js-button").on("click", function () {
+                var btn = $(this)
+                var url = btn.attr("data-url")
+                btn.html("Please wait...")
+                btn.attr("disabled", "")
+                $.get(url, function (data, success) {
+                    if (data.success) {
+                        btn.html(data.message)
+                        setTimeout(function () {
+                            btn.parent("td").parent("tr").hide()
+                        }, 1500)
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}
