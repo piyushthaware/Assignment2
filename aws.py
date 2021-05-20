@@ -6,8 +6,8 @@ from boto3.dynamodb.conditions import Key
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 AWS_REGION = "us-east-2"
-AWS_ACCESS_KEY = "AKIATQFHCTPYX2SYCJR5"
-AWS_ACCESS_SECRET = "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"
+AWS_ACCESS_KEY = "AWS-KEY"
+AWS_ACCESS_SECRET = "AWS_ACCESS_SECRET_KEY"
 dynamodb = boto3.client('dynamodb', aws_access_key_id=AWS_ACCESS_KEY,
                         aws_secret_access_key=AWS_ACCESS_SECRET, region_name=AWS_REGION)
 dynamodb_resource = boto3.resource('dynamodb', aws_access_key_id=AWS_ACCESS_KEY,
